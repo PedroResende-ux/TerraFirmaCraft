@@ -9,12 +9,12 @@ plugins {
 
 // Toolchain versions
 val minecraftVersion: String = "26.1.2"
-val neoForgeVersion: String = "26.1.2.6-beta"
+val neoForgeVersion: String = "26.1.2.78"
 
 // Dependency versions
 val emiVersion: String = "unavailable-26.1"
-val jeiVersion: String = "29.43.0.106"
-val patchouliVersion: String = "26.1-94"
+val jeiVersion: String = "UNVERIFIED-26.1"
+val patchouliVersion: String = "UNVERIFIED-26.1"
 
 val modId: String = "tfc"
 val modVersion: String = System.getenv("VERSION") ?: "0.0.0-indev"
@@ -138,7 +138,7 @@ dependencies {
 
     // Patchouli
     // We need to compile against the full JAR, not just the API, because we do some egregious hacks.
-    implementation("vazkii.patchouli:patchouli-neoforge:$patchouliVersion")
+    implementation("vazkii.patchouli:Patchouli:$patchouliVersion")
     "dataImplementation"("vazkii.patchouli:Patchouli:$patchouliVersion")
 
     // Jade / The One Probe
