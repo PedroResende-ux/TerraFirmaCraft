@@ -2,25 +2,23 @@ import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
 plugins {
-    id("net.neoforged.moddev") version "2.0.107"
+    id("net.neoforged.moddev") version "2.0.141"
     id("net.neoforged.licenser") version "0.7.2"
 }
 
 
 // Toolchain versions
-val minecraftVersion: String = "1.21.1"
-val neoForgeVersion: String = "21.1.234"
-val parchmentVersion: String = "2024.11.17"
-val parchmentMinecraftVersion: String = "1.21.1"
+val minecraftVersion: String = "26.1.2"
+val neoForgeVersion: String = "26.1.2.6-beta"
 
 // Dependency versions
-val emiVersion: String = "1.1.22+1.21.1"
-val jeiVersion: String = "19.25.0.321"
-val patchouliVersion: String = "1.21.1-92-NEOFORGE"
+val emiVersion: String = "unavailable-26.1"
+val jeiVersion: String = "29.43.0.106"
+val patchouliVersion: String = "26.1-94"
 
 val modId: String = "tfc"
 val modVersion: String = System.getenv("VERSION") ?: "0.0.0-indev"
-val modJavaVersion: String = "21"
+val modJavaVersion: String = "25"
 val modIsInCI: Boolean = !modVersion.contains("-indev")
 val modDataOutput: String = "src/generated/resources"
 
@@ -29,7 +27,7 @@ val generateModMetadata = tasks.register<ProcessResources>("generateModMetadata"
     val modReplacementProperties = mapOf(
         "modId" to modId,
         "modVersion" to modVersion,
-        "minecraftVersionRange" to "[$minecraftVersion]",
+        "minecraftVersionRange" to "[$minecraftVersion,)",
         "neoForgeVersionRange" to "[$neoForgeVersion,)",
         "patchouliVersionRange" to "[$patchouliVersion,)",
         "jeiVersionRange" to "[$jeiVersion,)"
@@ -93,11 +91,6 @@ neoForge {
     addModdingDependenciesTo(sourceSets["data"])
     validateAccessTransformers = true
 
-    parchment {
-        minecraftVersion.set(parchmentMinecraftVersion)
-        mappingsVersion.set(parchmentVersion)
-    }
-
     runs {
         configureEach {
             // Only JBR allows enhanced class redefinition, so ignore the option for any other JDKs
@@ -136,9 +129,7 @@ neoForge {
 }
 
 dependencies {
-    // EMI
-    compileOnly("dev.emi:emi-neoforge:${emiVersion}:api")
-    //runtimeOnly("dev.emi:emi-neoforge:${emiVersion}")
+    // EMI: no official 26.1 build exists; TFC detects it dynamically at runtime.
 
     // JEI
     compileOnly("mezz.jei:jei-${minecraftVersion}-common-api:${jeiVersion}")
@@ -147,7 +138,7 @@ dependencies {
 
     // Patchouli
     // We need to compile against the full JAR, not just the API, because we do some egregious hacks.
-    implementation("vazkii.patchouli:Patchouli:$patchouliVersion")
+    implementation("vazkii.patchouli:patchouli-neoforge:$patchouliVersion")
     "dataImplementation"("vazkii.patchouli:Patchouli:$patchouliVersion")
 
     // Jade / The One Probe
