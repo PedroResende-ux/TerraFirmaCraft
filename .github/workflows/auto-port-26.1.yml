@@ -47,7 +47,7 @@ jobs:
       - name: Restore git metadata and inspect result
         run: |
           git init
-          git remote add origin "https://github.com/${{ github.repository }}.git"
+          git remote add origin "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git"
           git fetch origin port/26.1-neoforge
           git reset --mixed FETCH_HEAD
           git status --short
