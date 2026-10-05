@@ -1,11 +1,11 @@
-name: Test 1.21.x
+name: Test 26.1 port
 
 on:
   push:
     branches:
-      - 1.21.x
+      - port/26.1-neoforge
   pull_request:
-    branches: [ 1.21.x ]
+    branches: [ port/26.1-neoforge ]
 
 jobs:
   main:
@@ -19,7 +19,7 @@ jobs:
     - name: Set up JDK 21
       uses: actions/setup-java@v3
       with:
-        java-version: '21'
+        java-version: '25'
         distribution: 'adopt'
     - name: Build, Test, Check Licenses
       uses: gradle/gradle-build-action@v2
